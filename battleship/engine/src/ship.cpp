@@ -22,12 +22,6 @@ ship::ship (int x, int y, orientacion orient, int length, int id)
  iniciar_matriz();
 }
 
-/*
-void ship::x (int x)
-{
-  this->_x_init = x;
-}
-*/
 
 int  ship::x ()
 {
@@ -44,13 +38,6 @@ void ship::id (int id)
   this->_id = id;
 }
 
-/*
-void ship::y (int y)
-{
-  this->_y_init = y;
-}
-*/
-
 int  ship::y ()
 {
   return this->_y_init;
@@ -61,24 +48,10 @@ orientacion ship::orient()
   return this->_orient;
 }
 
-/*
-void ship::orient( orientacion o)
-{
-  this->_orient = o;
-}
-*/
-
 int ship::length()
 {
   return this->_length;
 }
-
-/*
-void ship::length (int l)
-{
-  this->_length = l;
-}
-*/
 
 disp_result ship::disparo(int x, int y)
 {

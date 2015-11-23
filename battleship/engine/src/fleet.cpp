@@ -50,7 +50,6 @@ int fleet::new_ship (int x, int y, orientacion o, int l){
   }
   barcos.push_back (b); 
 
-
   return 0;
 }
 

@@ -19,6 +19,11 @@
 typedef enum orientacion { horizontal, vertical} orientacion;
 typedef enum disp_result {tocado, hundido, agua, derrota} disp_result;
 
+/**
+ * helper function which prints the disp_result info received as a parameter.
+ * @param disp shoot result to be translated
+ * @return shoot result translation
+ */
 char * print_disp_result (disp_result disp);
 
 

@@ -15,6 +15,10 @@
 
 using namespace std;
 
+/**
+ * Ship class
+ * it contains all the info needed for a ship, position, orientation and shoots reception
+ */
 class ship 
 {
   private: 
@@ -53,14 +57,12 @@ class ship
  */
    int  id ();
 
-   //void x (int x);
 /**
  * returns the first x position
  * @return first x positon
  */ 
    int  x ();
 
-   //void y (int y);
 /**
  * returns the first y position
  * @return first y position
@@ -94,7 +96,6 @@ class ship
  * @return ship length
  */
    int length();
-  // void length (int l);
 
 /**
  * returns all the ship x,y positions

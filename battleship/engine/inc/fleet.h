@@ -17,6 +17,10 @@
 
 using namespace std;
 
+/**
+ * Main player class
+ * It creates ships and receives shoots from the other player
+ */
 class fleet
 {
   private:

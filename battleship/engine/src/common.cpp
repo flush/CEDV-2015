@@ -10,7 +10,7 @@
 
 char * print_disp_result (disp_result disp)
 {
-  static char * result [4]={(char*)"TOCADO",(char*)"HUNDIDO",(char*)"AGUA",(char*)"DERROTA"};
+  static char * result [4]={(char*)"HIT",(char*)"SUNK",(char*)"WATER",(char*)"DEFEAT"};
   return result [disp];
 }
 

@@ -1,0 +1,20 @@
+*****************************************************
+*                                                   *
+******************BATTLESHIP ENGINE******************
+*                                                   *
+*****************************************************
+
+package files:
+
+src: source files
+inc: header files
+test: tester which includes two automatic players 
+
+compilation:
+Under the test path there is a main.cpp src file and the makefile.
+This makefile generates the tester binario named battleship located
+on the same test location.
+
+
+
+ 
