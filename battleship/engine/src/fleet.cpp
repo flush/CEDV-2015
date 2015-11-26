@@ -13,7 +13,8 @@ fleet::fleet()
 {
   int x;
   int y;
-
+  
+  _score = 0;
   for (y=0; y< MAX_Y; y++)
     for (x=0; x< MAX_X; x++)
       play [y][x]=' ';
@@ -77,9 +78,10 @@ void fleet::print()
     cout << "   ";
     for (cont = 0; cont < MAX_X;cont++) cout << "##";
     cout << endl;
+    cout << "SCORE :" << _score << endl;
 }
 
-disp_result fleet::disparo (int x, int y)
+disp_result fleet::disparo (int x, int y, int * score)
 {
   disp_result res_flota=derrota;
   disp_result res;
@@ -113,6 +115,8 @@ disp_result fleet::disparo (int x, int y)
     if (res_flota == derrota) res = derrota;
   }
  // cout << "return disparos " << res << endl;
+  _score += points_table[res];
+  if (score != NULL) *score = _score;
   return res;
 }
 
@@ -123,4 +127,8 @@ bool fleet::used (int x,int y)
   else return true;
 }
 
+int fleet::score()
+{
+  return _score;
+}
 

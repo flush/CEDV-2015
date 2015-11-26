@@ -136,7 +136,7 @@ int main (int argc, char * argv [])
 
     cout << "PLAYER 1 PLAY" << endl;
     disp = inteligent_cpu_play(&p2);
-    cout << print_disp_result (disp) << endl;
+    cout << print_disp_result (disp) << " SCORE " << p2.score() << endl;
     if (disp == derrota) 
     {
       cout << "PLAYER 1 WIN" << endl;
@@ -146,7 +146,7 @@ int main (int argc, char * argv [])
 
     cout << "PLAYER 2 PLAY"<<endl;
     disp= cpu_play(&p1);
-    cout << print_disp_result (disp) << endl;
+    cout << print_disp_result (disp) << " SCORE "<< p1.score()<<endl;
     if (disp == derrota) 
     {
       cout << "PLAYER 2 WIN" << endl;

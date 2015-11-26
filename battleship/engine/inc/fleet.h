@@ -39,6 +39,9 @@ char play [MAX_X][MAX_Y]={ \
 */
 
   std::vector<ship *> barcos;
+  int points_table[4]={20,50,-5,100};
+  int _score;
+
   public:
 /**
  * Default constructor
@@ -65,7 +68,7 @@ char play [MAX_X][MAX_Y]={ \
  * @param y shoot y coordinate
  * @return disp_result (hit, sunk, water or fleet destroyed
 */  
-  disp_result disparo (int x, int y);
+  disp_result disparo (int x, int y, int *score = NULL);
 
 /**
  * test if a x,y position is already shooted before
@@ -74,6 +77,12 @@ char play [MAX_X][MAX_Y]={ \
  * @return true if it is used or false if it is available to be shooted
  */
   bool used (int x,int y); 
+
+/**
+ * returns the actual score
+ * @return actual score
+ */
+  int score();
 };
 
 #endif
