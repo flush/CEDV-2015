@@ -9,29 +9,10 @@
 
 #include "common.h"
 #include "ship.h"
-#include <iostream>
-#include <time.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "fleet.h"
 
 using namespace std;
 
-int random (int max, int min=0)
-{
-  static int first = 0;
-  int v = -1;
-  if (max > 7) max=7;
-  if (min < 0) min=0;
-  
-  if (first == 0)
-  {
-    srand (time(NULL));
-    first = 1;
-  }
-  while (v < min) v = rand()%(max+1);
-  return v;
-}
 
 disp_result inteligent_cpu_play (fleet *p)
 {
@@ -66,11 +47,10 @@ disp_result inteligent_cpu_play (fleet *p)
       y=random(7);
     }
 
-  //cout << "checing " << x<<":"<<y<<endl;
     if (!p->used(x,y)) tiro_ok = 0;
   }
   res =  p->disparo(x,y);
-  cout << x<<":"<<y<< " " << res << endl;
+  cout << "shoot: " << x<<":"<<y<< " " << print_disp_result (res) << endl;
   prev_res = res;
   last_xy [0]=x;
   last_xy [1]=y;
@@ -82,10 +62,12 @@ disp_result cpu_play (fleet *p)
 {
   int x;
   int y;
+  disp_result res = agua;
   x=random(7);
   y=random(7);
-  cout << x<<":"<<y<<endl;
-  return p->disparo(x,y);
+  res =  p->disparo(x,y);
+  cout << "shoot: " << x<<":"<<y<< " " << print_disp_result (res) << endl;
+  return res;
 }
 
 
@@ -101,7 +83,7 @@ void allocate_random_ships(fleet * p,int num_ships)
     if (res == 0) cont++;
   }
 
-  p->print();
+//  p->print();
 }
 
 void allocate_fixed_ships(fleet * p, int num_ships)
@@ -119,24 +101,26 @@ int main (int argc, char * argv [])
   fleet p1;
   fleet p2;
   disp_result disp;
-  cout << "PLAYER 1 SHIPS " << endl;
+  cout << "\nPLAYER 1 SHIPS ALLOCATED " << endl;
   allocate_random_ships (&p1,4);
 
-  cout << "PLAYER 2 SHIPS " << endl;
+  cout << "\nPLAYER 2 SHIPS ALLOCATED " << endl;
   allocate_random_ships (&p2,4);
+
+  cout << "\nPLAY START\n" << endl;
 
   while (1)
   {
     sleep (0.5);
-    cout << "PLAYER 1 SHIPS " << endl;
+    cout << "\nPLAYER 1 SHIPS " << endl;
     p1.print ();
 
-    cout << "PLAYER 2 SHIPS " << endl;
+    cout << "\nPLAYER 2 SHIPS " << endl;
     p2.print ();
 
-    cout << "PLAYER 1 PLAY" << endl;
+    cout << "PLAYER 1 ";
     disp = inteligent_cpu_play(&p2);
-    cout << print_disp_result (disp) << " SCORE " << p2.score() << endl;
+    //cout << print_disp_result (disp) << " SCORE " << p2.score() << endl;
     if (disp == derrota) 
     {
       cout << "PLAYER 1 WIN" << endl;
@@ -144,9 +128,9 @@ int main (int argc, char * argv [])
       break;
     }
 
-    cout << "PLAYER 2 PLAY"<<endl;
+    cout << "PLAYER 2 ";
     disp= cpu_play(&p1);
-    cout << print_disp_result (disp) << " SCORE "<< p1.score()<<endl;
+    //cout << print_disp_result (disp) << " SCORE "<< p1.score()<<endl;
     if (disp == derrota) 
     {
       cout << "PLAYER 2 WIN" << endl;

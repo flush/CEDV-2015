@@ -32,11 +32,12 @@ int fleet::new_ship (int x, int y, orientacion o, int l){
  
   b = new ship (x,y,o,l);
   matriz_len=b->get_matrix (matriz);  
- 
+
+  /* 
   cout << " BARCO MATRIZ "; 
   for (cont=0;cont<matriz_len*2 ;cont++) cout <<  (int)matriz [cont] <<" ";
   cout << endl;
-
+  */
   for (cont=0;cont<(matriz_len*2);cont+=2) if (play[(int)matriz[cont]][(int)matriz[cont+1]]=='@') break;
   if (cont<(matriz_len*2))
   {
@@ -60,6 +61,7 @@ void fleet::print()
     int cont_x = 0;
     int cont_y = 0;
 
+    cout <<endl;
     cout << "   ";
     for (cont = 0; cont < MAX_X;cont++) cout << (char)('A' + cont)<< " ";
     cout << endl;
@@ -79,6 +81,7 @@ void fleet::print()
     for (cont = 0; cont < MAX_X;cont++) cout << "##";
     cout << endl;
     cout << "SCORE :" << _score << endl;
+    cout <<endl;
 }
 
 disp_result fleet::disparo (int x, int y, int * score)
@@ -88,7 +91,7 @@ disp_result fleet::disparo (int x, int y, int * score)
   unsigned int cont =0;
   for (cont=0; cont< barcos.size(); cont++)
   {
-    if (barcos[cont]->estado()!=hundido)
+    if (barcos[cont]->status()!=hundido)
     {
       res = barcos[cont]->disparo (x,y);
 //      cout << "resultado disparo " << x <<","<< y<<" ship number " << cont << "result  " <<res << endl;
@@ -106,7 +109,7 @@ disp_result fleet::disparo (int x, int y, int * score)
     play[y][x]='X';
   for (cont=0;cont<barcos.size();cont++)
     {
-      if (barcos[cont]->estado() != hundido) 
+      if (barcos[cont]->status() != hundido) 
       {
         res_flota=agua;
         break;

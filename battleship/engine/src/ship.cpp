@@ -17,9 +17,9 @@ ship::ship (int x, int y, orientacion orient, int length, int id)
  this->_y_init = y;
  this->_orient = orient;
  this->_length = length;
- this->_estado = agua;
+ this->_status = agua;
  this->_id     = id;
- iniciar_matriz();
+ init_matrix();
 }
 
 
@@ -81,11 +81,11 @@ disp_result ship::disparo(int x, int y)
     resultado = hundido;
   }
   //cout <<"ship " << x<<","<<y<<" : " << resultado << endl;
-  _estado   = resultado;
+  _status   = resultado;
   return resultado;
 }
 
-void ship::iniciar_matriz ()
+void ship::init_matrix ()
 {
   int cont =0;
 
@@ -143,7 +143,7 @@ void ship::print ()
       cout << "x:y " << x<<":"<<y<< " -> "<<_x[x]<<":"<<_y[y]<<endl;
 }
 
-disp_result ship::estado ()
+disp_result ship::status ()
 {
-  return _estado;
+  return _status;
 }

@@ -31,8 +31,8 @@ class ship
     int _y_ro [MAX_TAM_BARCO];
     int _x [MAX_TAM_BARCO];
     int _y [MAX_TAM_BARCO];
-    disp_result _estado;
-    void iniciar_matriz();
+    disp_result _status;
+    void init_matrix();
   public:
 
 /**
@@ -73,7 +73,7 @@ class ship
  * check the ship status
  * @return disp_result, ship status, (hit, shunk or free)
  */
-   disp_result estado();
+   disp_result status();
 
 /**
  * new shoot
