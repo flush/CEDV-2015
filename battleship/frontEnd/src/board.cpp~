@@ -1,0 +1,27 @@
+// Copyright [2015] <Alfredo Arteaga>
+#include "board.h"
+
+void Board:: paintBoard(Ogre::SceneManager * _sceneManager,
+                             Ogre::SceneNode * _parentNode,                             
+                              Ogre::Vector3* position){
+  Ogre::SceneNode* node = _sceneManager->createSceneNode(this._id);
+  Ogre::Entity* cubo = _sceneManager->createEntity("board.mesh");
+  node->attachObject(cubo);
+  node->scale(20, 20, 20);
+  node->translate(0,10,-35);
+  node->yaw(Ogre::Radian(1),Ogre::Node::TS_LOCAL);
+  node->roll(Ogre::Radian(1),Ogre::Node::TS_LOCAL);
+  _sceneManager->getRootSceneNode()->addChild(node);
+  }
+
+
+void Board::paint(Ogre::SceneManager* _sceneManager) {
+  Ogre::SceneNode* node = _sceneManager->createSceneNode("Rock");
+  Ogre::Entity* cubo = _sceneManager->createEntity("cube.mesh");
+  node->attachObject(cubo);
+  node->scale(20, 20, 20);
+  node->translate(0,10,-35);
+  node->yaw(Ogre::Radian(1),Ogre::Node::TS_LOCAL);
+  node->roll(Ogre::Radian(1),Ogre::Node::TS_LOCAL);
+  _sceneManager->getRootSceneNode()->addChild(node);
+}

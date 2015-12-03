@@ -1,0 +1,22 @@
+#include <Ogre.h>
+#include "MyFrameListener.h"
+#include "Indy.h"
+#include "Rock.h"
+
+class MyApp {
+  
+private:
+  Ogre::SceneManager* _sceneManager;
+  Ogre::Root* _root;
+  MyFrameListener* _framelistener;
+  Indy* indy;
+  Rock* rock;
+  
+public:
+  MyApp();
+  ~MyApp();  
+  int start();
+  void loadResources();
+  void createScene();
+  void createLight();
+};

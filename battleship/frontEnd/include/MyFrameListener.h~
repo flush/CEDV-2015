@@ -1,0 +1,16 @@
+#ifndef MYFRAMELISTENER_H
+#define MYFRAMELISTENER_H
+#include <OgreFrameListener.h>
+#include <OgreRenderWindow.h>
+#include <OIS/OIS.h>
+
+class MyFrameListener : public Ogre::FrameListener {
+ private:
+  OIS::InputManager* _inputManager;
+  OIS::Keyboard* _keyboard;
+ public:
+  explicit MyFrameListener(Ogre::RenderWindow* win);
+  ~MyFrameListener();
+  bool frameStarted(const Ogre::FrameEvent& evt);
+};
+#endif //MYFRAMELISTENER_H

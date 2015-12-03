@@ -1,0 +1,20 @@
+#ifndef _BOARD_H
+#define _BOARD_H
+class Indy {
+ private:
+
+ public:
+  Board();
+  ~Board();
+  Ogre::SceneNode* paintBoard(Ogre::SceneManager * _sceneManager,
+                             Ogre::SceneNode * _parentNode,                             
+                             Ogre::Vector3* pisition,
+                             char* nombre);
+  void paint(Ogre::SceneManager* _sceneManager);
+};
+
+
+
+
+
+#endif

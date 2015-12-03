@@ -1,0 +1,17 @@
+CC=g++
+CFLAGS=-c -Wall -I../inc
+CPP_FILES := $(wildcard src/*.cpp)
+OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
+LDFLAGS=
+OBJECTS=$(SOURCES:.cpp=.o)EXECUTABLE=battleship
+
+all: $(CPP_FILES) $(EXECUTABLE)    
+$(EXECUTABLE): $(OBJ_FILES) 
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm -f $(EXECUTABLE) ../src/*.o *.o
+
