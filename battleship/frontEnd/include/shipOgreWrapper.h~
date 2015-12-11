@@ -1,13 +1,15 @@
-#ifndef _SHIP_H
-#define _SHIP_H
+#ifndef _SHIP_OGRE_WRAPPER_H
+#define _SHIP_OGRE_WRAPPER_H
 #include <Ogre.h>
-class Ship {
+#include "ship.h"
+class ShipOgreWrapper {
  private:
   char* _id;
+  //ship* _ship;
 
  public:
-  Ship(char* id);
-  ~Ship();
+  ShipOgreWrapper(char* id);
+  ~ShipOgreWrapper();
   void paintShip(Ogre::SceneManager * _sceneManager,
                              Ogre::SceneNode * _parentNode,                             
                               Ogre::Vector3* position);

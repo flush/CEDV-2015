@@ -12,12 +12,13 @@ MyApp::MyApp() {
 }
 
 MyApp::~MyApp() {
-  delete _root;
-  delete _framelistener;
+  //delete _root;
+  //delete _framelistener;
 }
 
 int MyApp::start() {
   _root = new Ogre::Root();
+  Ogre::Root* aux = &Ogre::Root::getSingleton();
   if (!_root->restoreConfig()) {
     _root->showConfigDialog();
     _root->saveConfig();
