@@ -9,14 +9,16 @@ bool records::sort_records(records_entry pre, records_entry next)
   return pre.points < next.points;
 }
 
-int records::loadFile(string  path)
+int records::loadFile(string path)
 {
-  records_vector.clear();
   char * name;
   char * points;
   char str [128];
   int cont = -1;
 
+  records_vector.clear();
+ 
+  if (path.length()==0) path = string(DEFAULT_RECORDS_FILE);
   this->path=path;
 
   FILE * fd = fopen (path.c_str(),"r");

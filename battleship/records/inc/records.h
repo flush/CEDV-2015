@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #define SEPARATOR "|"
+#define DEFAULT_RECORDS_FILE "/tmp/input"
 
 using namespace std;
 

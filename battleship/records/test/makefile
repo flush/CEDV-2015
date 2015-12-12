@@ -1,14 +1,16 @@
 CC=g++
 CFLAGS=-c -Wall -I../inc
 LDFLAGS=
-SOURCES=../src/records.cpp  ./main.cpp 
+SOURCES=  ./main.cpp 
+LIB=records
+LIBDIR=../lib
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=records
 
 all: $(SOURCES) $(EXECUTABLE)
     
 $(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CC) $(LDFLAGS) $(OBJECTS) -L$(LIBDIR) -l$(LIB) -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) $< -o $@
