@@ -15,6 +15,13 @@ void *disable_gui( void *data )
   }
 }
 
+void callback (void * data, string user)
+{
+  GuiShip * app = (GuiShip *) data;
+  cout << " CALLBACK DATA " << user << endl;
+  app->add_record(user, 10000);
+}
+
 int main(int argc, char **argv) { 
 int  iret1;
 pthread_t thread1;
@@ -25,7 +32,8 @@ pthread_t thread1;
                 app->prepare();
                 if (app->create())
                 {
-                        iret1 = pthread_create( &thread1, NULL, disable_gui, (void*) app);
+                        //iret1 = pthread_create( &thread1, NULL, disable_gui, (void*) app);
+                        app->setCallback (&callback);
                         app->run();
                         app->destroy();
                 }

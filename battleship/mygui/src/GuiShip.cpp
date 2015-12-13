@@ -8,6 +8,8 @@ using namespace std;
 
 	GuiShip::GuiShip() 
 	{
+          max_records=DEFAULT_MAX_RECORDS;
+          cb = NULL;
           rec.loadFile("");          
 	}
 
@@ -83,6 +85,12 @@ using namespace std;
           if (name=="exit") exit (0);
           else if(name == "play") {
              cout << "PLAY" << endl;          
+             if (cb)
+             {
+               this->disable();
+               this->cb(this,user->getCaption());
+               this->enable(); 
+             }
           } 
           size_t l = level_cmb->getIndexSelected();
           if (l != MyGUI::ITEM_NONE) std::cout << "LEVEL : "  << level_cmb->getIndexSelected() << std::endl;
@@ -107,6 +115,24 @@ void GuiShip::disable ()
   records_users_edt->setEnabled(false);
   records_points_edt->setEnabled(false);
   user->setEnabled(false);
+}
+
+void GuiShip::setCallback(void (*cb)(void *,string))
+{
+  this->cb=cb;
+}
+
+string GuiShip::getUser()
+{
+  return user->getCaption();
+}
+
+void GuiShip::add_record(string user, int points)
+{
+  this->rec.add_record (user,points);
+  this->rec.saveFile();
+  this->rec.loadFile("");
+  this->load_scores();
 }
 
 

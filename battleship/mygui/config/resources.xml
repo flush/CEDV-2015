@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Paths>
-  <!--<Path root="true">/home/julk/Downloads/myguimaster/mygui-master/Media</Path>-->
-  <!--<Path>/home/julk/Downloads/myguimaster/mygui-master/Media/MyGUI_Media</Path>-->
-  <Path root="true">/home/julk/VIDEOJUEGOS/REPO/CEDV-2015/battleship/mygui</Path>
-  <Path>/home/julk/VIDEOJUEGOS/REPO/CEDV-2015/battleship/mygui</Path>
+  <Path root="true">/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/Media</Path>
+  <Path>/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/Media/MyGUI_Media</Path>
 </Paths>

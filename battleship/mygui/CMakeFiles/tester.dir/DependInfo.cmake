@@ -21,12 +21,12 @@ SET(CMAKE_TARGET_LINKED_INFO_FILES
 # The include file search paths:
 SET(CMAKE_C_TARGET_INCLUDE_PATH
   "."
-  "/home/julk/Downloads/myguimaster/mygui-master/Common"
-  "/home/julk/Downloads/myguimaster/mygui-master/MyGUIEngine/include"
-  "/home/julk/Downloads/myguimaster/mygui-master/Common/Base/Ogre"
-  "/home/julk/Downloads/myguimaster/mygui-master/Platforms/Ogre/OgrePlatform/include"
+  "/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/Common"
+  "/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/MyGUIEngine/include"
+  "/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/Common/Base/Ogre"
+  "/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/Platforms/Ogre/OgrePlatform/include"
   "/usr/include/OGRE"
-  "/home/julk/Downloads/myguimaster/mygui-master/Common/Input/OIS"
+  "/home/julk/VIDEOJUEGOS/myguimaster/mygui-master/Common/Input/OIS"
   "/usr/include/ois"
   "../records/inc"
   "./inc"

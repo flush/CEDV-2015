@@ -29,7 +29,7 @@ link_directories("/usr/lib/i386-linux-gnu/")
 target_link_libraries(myguiship OgreMain)
 
 link_directories("./")
-link_directories("/home/julk/Downloads/myguimaster/mygui-master/lib")
+link_directories(${MYGUI_INSTALL}/lib)
 add_executable(tester ./test/main.cpp)
 target_link_libraries(tester myguiship)
 target_link_libraries(tester boost_system)
