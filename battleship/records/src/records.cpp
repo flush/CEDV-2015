@@ -6,7 +6,7 @@ records::records()
 
 bool records::sort_records(records_entry pre, records_entry next)
 {
-  return pre.points < next.points;
+  return pre.points > next.points;
 }
 
 int records::loadFile(string path)
