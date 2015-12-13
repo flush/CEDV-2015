@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+	<Controls>
+		<WidgetsWindow>
+			<LastSkinGroup>Default</LastSkinGroup>
+		</WidgetsWindow>
+		<Main>
+			<Maximized>false</Maximized>
+			<Coord>0 0 0 0</Coord>
+		</Main>
+	</Controls>
+	<Settings>
+		<LayoutVersion>3.2.0</LayoutVersion>
+	</Settings>
+	<Files>
+		<RecentFolder>/home/julk/Downloads/myguimaster/mygui-master/Media/BATTLESHIP</RecentFolder>
+		<RecentFolder.List>
+			<Value>/home/julk/Downloads/myguimaster/mygui-master/Media/BATTLESHIP</Value>
+			<Value>/home/julk/Downloads/myguimaster/mygui-master/Demos/Demo_Controllers</Value>
+		</RecentFolder.List>
+		<RecentFile.List>
+			<Value>/home/julk/Downloads/myguimaster/mygui-master/Media/BATTLESHIP/battleship.layout</Value>
+			<Value>/home/julk/Downloads/myguimaster/mygui-master/Demos/Demo_Controllers/battleship.layout</Value>
+			<Value>/home/julk/Downloads/myguimaster/mygui-master/Demos/Demo_Controllers/test.layout</Value>
+			<Value>/home/julk/Downloads/myguimaster/mygui-master/Demos/Demo_Controllers/test</Value>
+		</RecentFile.List>
+		<RecentProject.List />
+	</Files>
+</Settings>
