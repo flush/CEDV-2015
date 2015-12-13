@@ -1,8 +1,8 @@
 CC=g++
-CFLAGS=-c -g -Wall  -I./include -I../engine/inc -w `pkg-config --cflags OGRE OGRE-Overlay` 
+CFLAGS=-c  -Wall  -I./include -I../engine/inc -w `pkg-config --cflags OGRE OGRE-Overlay` 
 CPP_FILES := $(wildcard ./src/*.cpp)
 OBJ_FILES := $(addprefix ./obj/,$(notdir $(CPP_FILES:.cpp=.o)))
-LDFLAGS=-L./lib `pkg-config --libs-only-l OGRE OGRE-Overlay` -lboost_system -lOIS -lGL -lstdc++ -lbship
+LDFLAGS=-L ./lib `pkg-config --libs-only-l OGRE OGRE-Overlay` -lboost_system -lOIS -lGL -lstdc++ -lbship2 
 
 EXECUTABLE=battleship
 

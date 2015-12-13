@@ -63,8 +63,7 @@ MyFrameListener::~MyFrameListener() {
   _inputManager->destroyInputObject(_keyboard);
   _inputManager->destroyInputObject(_mouse);
   OIS::InputManager::destroyInputSystem(_inputManager);
-  this->_unSettedShips.clear();
-
+  delete this->playerBoard;
 }
 /*
  * Runs on each frame starts
@@ -80,15 +79,15 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     this->paintPlaceShipMode();
   } else if (_mode == MODE_PLACE_SHIP) {
 
-
     if ( _mouse->getMouseState().buttonDown(OIS::MB_Left) == true
          && this->_btnIzqPulsado == false) {
       this->_btnIzqPulsado = true;
       this->selectShip();
-      this->_mouseOrgCoord[0] = mousex;
-      this->_mouseOrgCoord[1] = mousey;
     } else if (!_mouse->getMouseState().buttonDown(OIS::MB_Left)) {
       this->_btnIzqPulsado = false;
+      if (this->_selectedShip != NULL) {
+        this->setSelectedShipGameCoords();
+      }
       this->_selectedShip = NULL;
     }
     /*
@@ -96,7 +95,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
      */
     if (this->_selectedShip != NULL) {
         const Ogre::Vector3 &position = this->getMouse3DPoint();
-            this->_selectedShip->setPosition(position);
+            this->_selectedShip->setShipPosition(position);
     }
   }
   _keyboard->capture();
@@ -107,12 +106,12 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 }
 
 /*
- *Pinta el modo de colocación de barcosm, pintando un tablero
- * y 6 barcos.
+ *Paint the board and the ships needed to place the ships
+ * 
  */
 void MyFrameListener::paintPlaceShipMode() {
-  Board* boardPS = new Board("fleetBoard");
-  std::cout << "ppd" <<endl;
+  Board* boardPS = new Board("MyFleetBoard");
+
   Ogre::Vector3* fleetBoardPosition = new Ogre::Vector3(-2.0f, 1.0f, 0);
   Ogre::SceneManager* currentSM = Ogre::Root::getSingleton().
                                   getSceneManager("mainSM");
@@ -120,55 +119,77 @@ void MyFrameListener::paintPlaceShipMode() {
                       currentSM->getRootSceneNode(),
                       fleetBoardPosition);
   for ( int i = 0; i < 6; i++ ) {
+    int size = 4;
+    if (i < 2) {
+      size = 1;
+    } else if (i < 4) {
+      size = 2;
+    } else if (i < 5) {
+      size = 3;
+    }
     Ogre::Vector3* shipPos = new Ogre::Vector3(shipPositions[i][0]
                                                , shipPositions[i][1],
                                                shipPositions[i][2]);
-
-    ShipOgreWrapper* ship = new ShipOgreWrapper(i, shipPos);
-
-    this->_unSettedShips.push_back(ship);
-
+    ShipOgreWrapper* ship = new ShipOgreWrapper(i, shipPos, size);
+    boardPS->addShip(ship);
     ship->paintShip(currentSM,
                     currentSM->getRootSceneNode(),
                     NULL);
   }
+  this->playerBoard = boardPS;
 }
 
+const void MyFrameListener::setSelectedShipGameCoords() {
+  int x = _mouse->getMouseState().X.abs;
+  int y = _mouse->getMouseState().Y.abs;
+  Ogre::Ray ray = this->setRayQuery(x, y);
+  _rayScnQueryDD->setRay(ray);
+  _rayScnQueryDD->setSortByDistance(true);
+  _rayScnQueryDD-> setQueryMask(BOARD_BOX);
+  Ogre::RaySceneQueryResult &result = _rayScnQueryDD->execute();
+  Ogre::RaySceneQueryResult::iterator it = result.begin();
+  for ( ; it != result.end(); it++) {
+    if ( it->movable ) {
+      string name = it->movable->getParentNode()->getName();
+      int x = name.at(name.length()-2)-'0';
+      int y = name.at(name.length()-1)-'0';
+      this->_selectedShip->setShipBoardPosition(x, y);
+    }
+  }
+}
 
 const Ogre::Vector3 MyFrameListener::getMouse3DPoint(){
   int x = _mouse->getMouseState().X.abs;
   int y = _mouse->getMouseState().Y.abs;
-  Ogre::Ray ray = this->setRayQuery(x, y, PLANE_DRAG_DROP);
+  Ogre::Ray ray = this->setRayQuery(x, y);
 
   _rayScnQueryDD->setRay(ray);
-    _rayScnQueryDD->
-      setSortByDistance(true);
-  _rayScnQueryDD->
-      setQueryMask(PLANE_DRAG_DROP);
+  _rayScnQueryDD->setSortByDistance(true);
+  _rayScnQueryDD-> setQueryMask(PLANE_DRAG_DROP);
   Ogre::RaySceneQueryResult &result = _rayScnQueryDD->execute();
   Ogre::RaySceneQueryResult::iterator it = result.begin();
   return ray.getPoint(it->distance);
-
-
 }
 /*
- *Select a Ship for placing it in the board
+ *Select a Not placed Ship for placing it in the board
  */
 void MyFrameListener::selectShip() {
-  _rayScnQuery->
-      setSortByDistance(true);
-  _rayScnQuery->
-      setQueryMask(SHIP);
+  _rayScnQuery->setSortByDistance(true);
+  _rayScnQuery->setQueryMask(SHIP);
   int x = _mouse->getMouseState().X.abs;
   int y = _mouse->getMouseState().Y.abs;
-  Ogre::Ray ray = this->setRayQuery(x, y, SHIP);
+  Ogre::Ray ray = this->setRayQuery(x, y);
   _rayScnQuery->setRay(ray);
   Ogre::RaySceneQueryResult &result = _rayScnQuery->execute();
   Ogre::RaySceneQueryResult::iterator it = result.begin();
 
   for ( ; it != result.end(); it++) {
     if ( it->movable ) {
-      this->_selectedShip =(Ogre::SceneNode*) it->movable->getParentNode();
+      ShipOgreWrapper* selectedShip = playerBoard->
+                                      getShip(it->movable->getParentNode());
+      if (selectedShip->isPlaced() == false) {
+        this->_selectedShip = selectedShip;
+      }
     }
   }
 }
@@ -177,7 +198,7 @@ void MyFrameListener::selectShip() {
  * Set a RayQuery to obtain de object pointed by the mouse
  */
 Ogre::Ray MyFrameListener::setRayQuery(int posx,
-                                        int posy, int mask) {
+                                        int posy) {
   
   Ogre::Ray rayMouse = _cam->
                        getCameraToViewportRay(posx/float(_win->getWidth()),
@@ -208,3 +229,5 @@ void MyFrameListener::createDummyPlane() {
       getSceneManager("mainSM")->getRootSceneNode()->
       attachObject(plane);
 }
+
+

@@ -108,6 +108,14 @@ class ship
  *prints all x,y ship positions
  */
    void print ();
+  /*
+   *changes ship's position
+   * @param x X coordinate
+   * @param y Y coordinate
+   */
+   
+  void setPosition(int x, int y);
+
 };
 
 #endif

@@ -147,3 +147,10 @@ disp_result ship::status ()
 {
   return _status;
 }
+
+void ship::setPosition(int x, int y){
+  this->_x_init = x;
+  this->_y_init = y;
+  init_matrix();
+}
+  

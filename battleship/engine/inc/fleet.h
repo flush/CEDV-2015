@@ -55,7 +55,7 @@ char play [MAX_X][MAX_Y]={ \
  * @param o orientation (^ or >)
  * @param l ship legth 
  */
-  int new_ship (int x, int y, orientacion o, int l);
+  ship* new_ship (int x, int y, orientacion o, int l);
 
 /**
  * prints all x,y positions of the ship

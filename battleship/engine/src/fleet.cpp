@@ -21,14 +21,14 @@ fleet::fleet()
 }
 
 
-int fleet::new_ship (int x, int y, orientacion o, int l){
+ship* fleet::new_ship (int x, int y, orientacion o, int l){
   char matriz[MAX_TAM_BARCO*2];
   int matriz_len=0;
   int cont=0;
 
   ship * b;
-  if      ((o == horizontal) && ((x+l) > MAX_X)) return -1; // ERROR
-  else if ((o == vertical) && ((y+l)   > MAX_Y)) return -1; // ERROR
+  if      ((o == horizontal) && ((x+l) > MAX_X)) return NULL; // ERROR
+  else if ((o == vertical) && ((y+l)   > MAX_Y)) return NULL; // ERROR
  
   b = new ship (x,y,o,l);
   matriz_len=b->get_matrix (matriz);  
@@ -42,7 +42,7 @@ int fleet::new_ship (int x, int y, orientacion o, int l){
   if (cont<(matriz_len*2))
   {
     delete b;
-    return -1;
+    return NULL;
   }
 
   for (cont=0;cont<(matriz_len*2);cont+=2) 
@@ -52,7 +52,7 @@ int fleet::new_ship (int x, int y, orientacion o, int l){
   }
   barcos.push_back (b); 
 
-  return 0;
+  return b;
 }
 
 void fleet::print()

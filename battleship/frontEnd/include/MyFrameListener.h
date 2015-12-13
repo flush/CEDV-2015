@@ -15,12 +15,11 @@ class MyFrameListener : public Ogre::FrameListener {
   float shipPositions[6][3] = {{3.0f, 3.0f, 0.2f}, {1.0f, 3.0f, 0.2f},
                               {3.0f, 1.0f, 0.2f}, {1.0f, 1.0f, 0.2f},
                               {3.0f, -1.0f, 0.2f}, {1.0f, -1.0f, 0.2f}};
-  std::vector<ShipOgreWrapper*> _unSettedShips;
-  Ogre::SceneNode* _selectedShip;
+  ShipOgreWrapper* _selectedShip;
   int _mouseOrgCoord[2];
-  
-  OIS::InputManager* _inputManager;
+  Board* playerBoard;
   int _mode;
+  OIS::InputManager* _inputManager;
   OIS::Keyboard* _keyboard;
   OIS::Mouse* _mouse;
   Ogre::RenderWindow*_win;
@@ -30,13 +29,14 @@ class MyFrameListener : public Ogre::FrameListener {
   Ogre::Camera* _cam;
   const Ogre::Vector3 getMouse3DPoint();
   void createDummyPlane();
-  
+  const void setSelectedShipGameCoords();
+
  public:
   explicit MyFrameListener(Ogre::RenderWindow* win);
   ~MyFrameListener();
   bool frameStarted(const Ogre::FrameEvent& evt);
   void paintPlaceShipMode();
   void selectShip();
-  Ogre::Ray setRayQuery(int posx, int posy, int mask);
+  Ogre::Ray setRayQuery(int posx, int posy);
 };
 #endif //MYFRAMELISTENER_H
