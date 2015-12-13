@@ -11,6 +11,9 @@
         <Widget type="ImageBox" skin="ImageBox" position="230 215 140 35" name="playgame_img">
             <Property key="ImageTexture" value="playgame.png"/>
         </Widget>
+        <Widget type="ImageBox" skin="ImageBox" position="560 545 140 35" name="credits">
+            <Property key="ImageTexture" value="creditos.png"/>
+        </Widget>
     </Widget>
     <Widget type="Widget" skin="" position="0 0 0 0" layer="Main" name="_Main"/>
     <Widget type="Button" skin="Button" position="390 280 95 40" align="Default" layer="Main" name="exit">
@@ -49,8 +52,8 @@
     <Widget type="Widget" skin="PanelSkin" position="715 545 605 90" layer="Main">
         <Property key="Alpha" value="0.5"/>
         <Widget type="TextBox" skin="TextBox" position="10 5 585 75" name="credits">
-            <Property key="Caption" value="CEDV 2015-2016 JULIAN AND ALFREDO\nhttps://github.com/flush/CEDV-2015"/>
             <Property key="InheritsAlpha" value="false"/>
+            <Property key="Caption" value="CEDV 2015-2016 JULIAN AND ALFREDO\nhttps://github.com/flush/CEDV-2015"/>
             <Property key="FontHeight" value="30"/>
             <Property key="TextShadow" value="true"/>
         </Widget>
