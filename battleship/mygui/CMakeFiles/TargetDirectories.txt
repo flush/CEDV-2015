@@ -1,0 +1,2 @@
+/home/julk/VIDEOJUEGOS/REPO/CEDV-2015/battleship/mygui/CMakeFiles/myguiship.dir
+/home/julk/VIDEOJUEGOS/REPO/CEDV-2015/battleship/mygui/CMakeFiles/tester.dir
