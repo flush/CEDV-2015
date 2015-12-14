@@ -113,9 +113,8 @@ class ship
    * @param x X coordinate
    * @param y Y coordinate
    */
-   
   void setPosition(int x, int y);
-
+  void setOrient(orientacion orient);
 };
 
 #endif

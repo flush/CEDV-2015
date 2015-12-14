@@ -5,28 +5,35 @@
 #include "shipOgreWrapper.h"
 #include "fleet.h"
 
+#define FLEET_BOARD 1
+#define SHOOT_BOARD 2
 class Board {
 
  private:
   char* _id;
-  std::vector<ShipOgreWrapper> ships;
+  int _type;
+  std::vector<ShipOgreWrapper*> ships;
   Ogre::Vector3* firstBoxpos;
   fleet *fleetBoard;
   void placeBoxes(char* idBoard, Ogre::Node* boardNode,
                   Ogre::SceneManager* _sceneManager);
+  void allocate_random_ships();
 
 
 
  public:
   ShipOgreWrapper* getShip(Ogre::Node* node);
   ShipOgreWrapper* getShip(int id);
-  explicit Board(char* id);
+  Board(char* id, int type);
   ~Board();
   void paintBoard(Ogre::SceneManager * _sceneManager,
                              Ogre::SceneNode * _parentNode,                             
                               Ogre::Vector3* position);
-  void addShip(ShipOgreWrapper *ogreShip );
-
-
+  void addShip(ShipOgreWrapper *ogreShip);
+  void setShipBoardPosition(int x, int y, int idShip);
+  disp_result shoot(int x, int y, Ogre::SceneNode* node);
+  bool areAllShipsPlaced();
+  disp_result inteligent_cpu_play ();
+  
 };
 #endif

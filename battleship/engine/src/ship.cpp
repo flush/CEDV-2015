@@ -11,6 +11,7 @@
 
 #include "ship.h"
 
+
 ship::ship (int x, int y, orientacion orient, int length, int id)
 {
  this->_x_init = x;
@@ -152,5 +153,9 @@ void ship::setPosition(int x, int y){
   this->_x_init = x;
   this->_y_init = y;
   init_matrix();
+}
+
+void ship::setOrient(orientacion orient){
+  this->_orient=orient;
 }
   

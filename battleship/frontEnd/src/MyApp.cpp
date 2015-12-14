@@ -26,7 +26,7 @@ int MyApp::start() {
   Ogre::RenderWindow* window = _root->initialise(true, "BattleShip");
   _sceneManager = _root->createSceneManager(Ogre::ST_GENERIC,"mainSM");
   Ogre::Camera* cam = _sceneManager->createCamera("MainCamera");
-  cam->setPosition(Ogre::Vector3(0.0f,2.0f,7.0f));
+  cam->setPosition(Ogre::Vector3(0.0f,2.0f,10.0f));
   cam->lookAt(Ogre::Vector3(0, 1, 0));
   cam->setNearClipDistance(5);
   cam->setFarClipDistance(100);

@@ -11,20 +11,20 @@ ShipOgreWrapper::ShipOgreWrapper(int id, Ogre::Vector3* position,int size):_id(i
 void ShipOgreWrapper::paintShip(Ogre::SceneManager * _sceneManager,
                                 Ogre::SceneNode * _parentNode,                             
                                 Ogre::Vector3* position) {
-  int baseSize = 3;
-   std::stringstream ss;
-   ss << _id;
 
+  std::stringstream ss;
+  ss << _id;
   Ogre::SceneNode* node = _sceneManager->createSceneNode(ss.str());
 
   Ogre::Entity* ship = _sceneManager->createEntity("ship.mesh");
-  const Ogre::Vector3 &scaleShip = Ogre::Vector3(this->_ship->length()/baseSize,
-                                          0.6, 1);
+
+  const Ogre::Vector3 &scaleShip = Ogre::Vector3(this->sizes[this->_ship->length()-1],
+                                                 0.8, 1);
   ship->setQueryFlags(SHIP);
   node->attachObject(ship);
   node->scale(scaleShip);
   node->translate(*(this->_originalPosition),
-                    Ogre::Node::TS_WORLD);
+                  Ogre::Node::TS_WORLD);
   node->scale(scaleShip);
   _parentNode->addChild(node);
   this->_node = node;
@@ -63,9 +63,6 @@ ship* ShipOgreWrapper::getShip() {
 ShipOgreWrapper::~ShipOgreWrapper() {
   delete this->_originalPosition;
   delete this->_ship;
-  if (this->_node != NULL) {
-     delete this->_node;
-  }
 }
 int ShipOgreWrapper::getId() {
   return this->_id;
@@ -73,4 +70,18 @@ int ShipOgreWrapper::getId() {
 
 bool ShipOgreWrapper::isPlaced() {
   return this->_ship->x() != -1;
+}
+
+
+void ShipOgreWrapper::rotateShip(){
+  if (this->_ship->length() > 1) {
+    if (this->_ship->orient() == horizontal) {
+      this->_ship->setOrient(vertical);
+      this->_node->roll(Ogre::Radian(Ogre::Degree(-90)));
+    }
+    else{
+      this->_ship->setOrient(horizontal);
+      this->_node->roll(Ogre::Radian(Ogre::Degree(90)));
+    }
+  }
 }

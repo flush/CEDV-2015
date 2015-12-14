@@ -5,6 +5,8 @@ enum QueryFlags
   SHIP = 1 << 0,
   BOARD_POS = 1 << 1,
   PLANE_DRAG_DROP = 1 << 2,
-  BOARD_BOX = 1 << 3
+  BOARD_BOX = 1 << 3,
+  SHOOT_BOX = 1 << 4,
+  USED_SHOOT_BOX = 1 << 5
 };
 #endif
