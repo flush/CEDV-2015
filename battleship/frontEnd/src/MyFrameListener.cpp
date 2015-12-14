@@ -5,10 +5,12 @@ Curso de videojuegos. Primera minidemo.
 #include "MyFrameListener.h"
 #include "ship.h"
 #include "shipOgreWrapper.h"
+#include "GuiShip.h"
 #include "const.h"
 #include <sstream>
 #include <string>
-
+#include <functional>
+#include <ctime>
 /*
  *
  * Constructor Frame Listener
@@ -18,9 +20,9 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win) {
   _idSelectedShip = -1;
   _mode = MODE_STARTED;
 
+
   OIS::ParamList param;
   size_t windowHandle;  std::ostringstream wHandleStr;
-
   _win = win;
   _cam = Ogre::Root::getSingleton().
          getSceneManager("mainSM")->getCamera("MainCamera");
@@ -30,32 +32,50 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win) {
                  getSceneManager("mainSM")->createRayQuery(Ogre::Ray(), 0);
 
   _rayScnQueryDD = Ogre::Root::getSingleton().
-                 getSceneManager("mainSM")->createRayQuery(Ogre::Ray(), 0);
+                   getSceneManager("mainSM")->createRayQuery(Ogre::Ray(), 0);
 
   win->getCustomAttribute("WINDOW", &windowHandle);
 
   wHandleStr << windowHandle;
   param.insert(std::make_pair("WINDOW", wHandleStr.str()));
-
-  param.insert(std::make_pair(std::string("x11_mouse_grab"),
-                              std::string("false")));
-  param.insert(std::make_pair(std::string("x11_mouse_hide"),
-                              std::string("false")));
-  param.insert(std::make_pair(std::string("x11_keyboard_grab"),
-                              std::string("false")));
-  param.insert(std::make_pair(std::string("XAutoRepeatOn"),
-                              std::string("true")));
+  
   _inputManager = OIS::InputManager::createInputSystem(param);
 
   _keyboard = static_cast<OIS::Keyboard*>
-              (_inputManager->createInputObject(OIS::OISKeyboard, false));
+              (_inputManager->createInputObject(OIS::OISKeyboard, true));
   _mouse = static_cast<OIS::Mouse*> (_inputManager->
                                      createInputObject(OIS::OISMouse, false));
 
 
   _mouse->getMouseState().width = win->getWidth();
   _mouse->getMouseState().height = win->getHeight();
+
+
+  mPlatform = new MyGUI::OgrePlatform();
+  mPlatform->initialise(win, Ogre::Root::getSingleton().
+                        getSceneManager("mainSM"));
+  mGUI = new MyGUI::Gui();
+  mGUI->initialise();
+  _guiHandler =new GuiInputHandler();
+
+
+  //  
+
+  _gui = new GuiShip();
+  _gui->createScene();
+  _gui->enable();
+    
+  std::function<void(string)> f_button = std::bind(&MyFrameListener::guiButtonPressed, this, std::placeholders::_1);
+  _gui->setCallback(f_button);
+
+
+
 }
+
+
+
+
+
 /*
  *Destructor
  */
@@ -67,45 +87,94 @@ MyFrameListener::~MyFrameListener() {
   if (this->shootBoard = NULL) {
     delete this->playerBoard;
   }
+  delete this->_gui;
 }
 
 
 void MyFrameListener::manageShootMode() {
-    if (_mouse->getMouseState().buttonDown(OIS::MB_Left) == true
-         && this->_btnIzqPulsado == false) {
-      this->_btnIzqPulsado = true;
-      if (_turn == PLAYER_TURN) {
-        this->shootShip();
+  if (_mouse->getMouseState().buttonDown(OIS::MB_Left) == true) {
+      
+
+    if (_turn == PLAYER_TURN) {
+      this->shootShip();
+    }
+  }
+  if (_turn == CPU_TURN) {
+
+    time_t now = time(NULL);
+    if (difftime(now, this->previousTime) >=0) {
+    
+      disp_result res = this->playerBoard->inteligent_cpu_play();
+      if (res == derrota) {
+        _gui->createScene();
+        _gui->enable();
+        _mode = MODE_STARTED;
       }
-    } else if (!_mouse->getMouseState().
-               buttonDown(OIS::MB_Left) == true) {
-      this->_btnIzqPulsado = false;
+      else{
+        _turn = PLAYER_TURN;
+      }
     }
-    if (_turn == CPU_TURN) {
-      sleep(1);
-      this->playerBoard->inteligent_cpu_play();
-      _turn = PLAYER_TURN;
-    }
+  }
+    
 }
+
+void MyFrameListener::guiButtonPressed(string userName){
+
+  _user = userName;
+  _gui->unloadScene();    
+  createDummyPlane();
+  this->paintPlaceShipMode();
+  _mode = MODE_PLACE_SHIP;
+
+
+
+}
+ 
+
+
 /*
  * Runs on each frame starts
  */
 bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
-    _mouse->capture();
+
+
+  
+  _mouse->capture();
+    
+  MyGUI::InputManager::getInstance().injectMouseMove(_mouse->getMouseState().X.abs,
+                                                     _mouse->getMouseState().Y.abs,
+                                                     _mouse->getMouseState().Z.abs);
+
+
+  bool leftMouseclick = false;
+  bool releaseMouseclick= false;
   int mousex = _mouse->getMouseState().X.abs;
   int mousey = _mouse->getMouseState().Y.abs;
 
-  if (_mode == MODE_STARTED) {
-    _mode = MODE_PLACE_SHIP;
-    createDummyPlane();
-    this->paintPlaceShipMode();
-  } else if (_mode == MODE_PLACE_SHIP) {
-    if ( _mouse->getMouseState().buttonDown(OIS::MB_Left) == true
-         && this->_btnIzqPulsado == false) {
-      this->_btnIzqPulsado = true;
+  if ( _mouse->getMouseState().buttonDown(OIS::MB_Left) == true &&
+       this->_btnIzqPulsado == false){
+    MyGUI::InputManager::getInstance().injectMousePress(_mouse->getMouseState().X.abs,
+                                                        _mouse->getMouseState().Y.abs,
+                                                        MyGUI::MouseButton::Left);
+    this->_btnIzqPulsado = true;
+    leftMouseclick = true;
+
+  }
+  if (_mouse->getMouseState().buttonDown(OIS::MB_Left) == false &&
+      this->_btnIzqPulsado==true ){
+    this->_btnIzqPulsado =false;
+    releaseMouseclick = true;
+    MyGUI::InputManager::getInstance().injectMouseRelease(_mouse->getMouseState().X.abs,
+                                                          _mouse->getMouseState().Y.abs,
+                                                          MyGUI::MouseButton::Left);
+  }
+
+
+  
+  if (_mode == MODE_PLACE_SHIP) {
+    if (leftMouseclick){
       this->selectShip();
-    } else if (!_mouse->getMouseState().buttonDown(OIS::MB_Left)) {
-      this->_btnIzqPulsado = false;
+    } else if (releaseMouseclick) {
       if (this->_idSelectedShip >= 0) {
         this->setSelectedShipGameCoords();
         //Check if all ships are placed to start playing
@@ -121,16 +190,16 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
      * If there is a ship selected, translate drag and drop
      */
     if (this->_idSelectedShip >= 0) {
-        const Ogre::Vector3 &position = this->getMouse3DPoint();
-        this->playerBoard->getShip(this->_idSelectedShip)
-            ->setShipPosition(position);
+      const Ogre::Vector3 &position = this->getMouse3DPoint();
+      this->playerBoard->getShip(this->_idSelectedShip)
+          ->setShipPosition(position);
     }
     if ( _mouse->getMouseState().buttonDown(OIS::MB_Right) == true
-       && this->_btnDchoPulsado == false) {
+         && this->_btnDchoPulsado == false) {
       this->_btnDchoPulsado = true;
       if (this->_idSelectedShip >= 0) {
-         this->playerBoard->getShip(this->_idSelectedShip)
-             ->rotateShip();
+        this->playerBoard->getShip(this->_idSelectedShip)
+            ->rotateShip();
       }
     }
     if (!_mouse->getMouseState().buttonDown(OIS::MB_Right)) {
@@ -145,6 +214,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     manageShootMode();
   }
   _keyboard->capture();
+
+  _keyboard->setEventCallback(_guiHandler);
+    
   if (_keyboard->isKeyDown(OIS::KC_ESCAPE)) {
     return false;
   }
@@ -158,8 +230,8 @@ void MyFrameListener::paintShootingBoard(){
   Ogre::SceneManager* currentSM = Ogre::Root::getSingleton().
                                   getSceneManager("mainSM");
   board->paintBoard(currentSM,
-                      currentSM->getRootSceneNode(),
-                      shootBoardPosition);
+                    currentSM->getRootSceneNode(),
+                    shootBoardPosition);
   this->shootBoard = board;
 }
 
@@ -179,8 +251,18 @@ void MyFrameListener::shootShip() {
       string name = it->movable->getParentNode()->getName();
       int x = name.at(name.length()-2)-'0';
       int y = name.at(name.length()-1)-'0';
-      shootBoard->shoot(x, y,(Ogre::SceneNode*) it->movable->getParentNode());
+      disp_result res = shootBoard->shoot(x, y,(Ogre::SceneNode*) it->movable->getParentNode());
+      if (res == derrota) {
+        _gui->add_record(_user,shootBoard->getPoints());
+        _gui->createScene();
+        _gui->enable();
+        _mode = MODE_STARTED;
+      }
+      else{
+        _turn = PLAYER_TURN;
+      }
       _turn = CPU_TURN;
+      previousTime =time(NULL);
     }
   }
 }
@@ -200,7 +282,7 @@ void MyFrameListener::paintPlaceShipMode() {
   boardPS->paintBoard(currentSM,
                       currentSM->getRootSceneNode(),
                       fleetBoardPosition);
-   for ( int i = 0; i < 6; i++ ) {
+  for ( int i = 0; i < 6; i++ ) {
     int size = 4;
     if (i < 2) {
       size = 1;
@@ -274,8 +356,8 @@ void MyFrameListener::selectShip() {
       ShipOgreWrapper* selectedShip = playerBoard->
                                       getShip(it->movable->getParentNode());
       if (selectedShip->isPlaced() == false) {
-          int id = it->movable->getParentNode()->getName().at(0) -'0';
-          this->_idSelectedShip = id;
+        int id = it->movable->getParentNode()->getName().at(0) -'0';
+        this->_idSelectedShip = id;
       }
     }
   }
@@ -285,7 +367,7 @@ void MyFrameListener::selectShip() {
  * Set a RayQuery to obtain de object pointed by the mouse
  */
 Ogre::Ray MyFrameListener::setRayQuery(int posx,
-                                        int posy) {
+                                       int posy) {
   
   Ogre::Ray rayMouse = _cam->
                        getCameraToViewportRay(posx/float(_win->getWidth()),
@@ -301,12 +383,12 @@ Ogre::Ray MyFrameListener::setRayQuery(int posx,
  */   
 void MyFrameListener::createDummyPlane() {
   Ogre::SceneManager* mSceneMgr = Ogre::Root::getSingleton().
-       getSceneManager("mainSM");
+                                  getSceneManager("mainSM");
   Ogre::Plane *mPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, 0.5);
 
   Ogre::MeshManager::getSingleton().createPlane("DnDPlane",
                                                 Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-                                          *mPlane,800, 800, 20, 20, true, 1, 5, 5
+                                                *mPlane,800, 800, 20, 20, true, 1, 5, 5
                                                 , Ogre::Vector3::UNIT_Y);
   Ogre::Entity* plane = mSceneMgr->createEntity("DnDPlane");
   plane->setVisible(false);

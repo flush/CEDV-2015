@@ -221,3 +221,9 @@ disp_result Board::inteligent_cpu_play() {
    
   return res;
 }
+
+int Board::getPoints(){
+  return this->fleetBoard->score();
+
+
+}

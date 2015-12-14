@@ -1,8 +1,8 @@
 CC=g++
-CFLAGS=-c -g  -Wall  -I./include -I../engine/inc -w `pkg-config --cflags OGRE OGRE-Overlay` 
+CFLAGS=-c -g  -Wall  -I./include -I../engine/inc -w `pkg-config --cflags OGRE OGRE-Overlay MYGUI` --std=c++11
 CPP_FILES := $(wildcard ./src/*.cpp)
 OBJ_FILES := $(addprefix ./obj/,$(notdir $(CPP_FILES:.cpp=.o)))
-LDFLAGS= `pkg-config --libs-only-l OGRE OGRE-Overlay` -lboost_system -lOIS -lGL -lstdc++  
+LDFLAGS= `pkg-config --libs-only-l OGRE OGRE-Overlay MYGUI` -lboost_system -lOIS -lGL -lstdc++   -lMyGUI.OgrePlatform
 
 EXECUTABLE=battleship
 

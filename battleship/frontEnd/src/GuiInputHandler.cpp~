@@ -1,0 +1,41 @@
+#include "GuiInputHandler.h"
+#include "MyGUI.h"
+#include  <iostream> 
+
+bool GuiInputHandler::mouseMoved( const OIS::MouseEvent &arg )
+{
+
+  std::cout << "Movimient raton " << std::endl;
+    MyGUI::InputManager::getInstance().injectMouseMove(arg.state.X.abs, arg.state.Y.abs, arg.state.Z.abs);
+    //...
+    return true;
+}
+ 
+bool GuiInputHandler::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+    std::cout << "Movimiento pressed " << std::endl;
+    MyGUI::InputManager::getInstance().injectMousePress(arg.state.X.abs, arg.state.Y.abs, MyGUI::MouseButton::Enum(id));
+    //...
+    return true;
+}
+ 
+bool GuiInputHandler::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+    MyGUI::InputManager::getInstance().injectMouseRelease(arg.state.X.abs, arg.state.Y.abs, MyGUI::MouseButton::Enum(id));
+    //...
+    return true;
+}
+ 
+bool GuiInputHandler::keyPressed( const OIS::KeyEvent &arg )
+{
+    MyGUI::InputManager::getInstance().injectKeyPress(MyGUI::KeyCode::Enum(arg.key), arg.text);
+    //...
+    return true;
+}
+ 
+bool GuiInputHandler::keyReleased( const OIS::KeyEvent &arg )
+{
+    MyGUI::InputManager::getInstance().injectKeyRelease(MyGUI::KeyCode::Enum(arg.key));
+    //...
+    return true;
+}

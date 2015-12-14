@@ -1,0 +1,18 @@
+#ifndef _GUI_INPUT_HANDLER_
+#define _GUI_INPUT_HANDLER_
+#include <OIS/OIS.h>
+class GuiInputHandler : public OIS::MouseListener , public OIS::KeyListener{
+
+
+ public:
+   bool mouseMoved(const OIS::MouseEvent&);
+   bool mousePressed(const OIS::MouseEvent&, OIS::MouseButtonID);
+   bool mouseReleased(const OIS::MouseEvent&, OIS::MouseButtonID);
+   bool keyPressed(const OIS::KeyEvent&);
+   bool keyReleased(const OIS::KeyEvent&);
+
+};
+
+                        
+#endif;
+                   

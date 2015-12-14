@@ -34,6 +34,7 @@ class Board {
   disp_result shoot(int x, int y, Ogre::SceneNode* node);
   bool areAllShipsPlaced();
   disp_result inteligent_cpu_play ();
+  int getPoints();
   
 };
 #endif

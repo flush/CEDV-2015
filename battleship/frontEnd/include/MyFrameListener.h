@@ -9,9 +9,13 @@
 #include <OgreFrameListener.h>
 #include <OgreRenderWindow.h>
 #include "shipOgreWrapper.h"
+#include "GuiShip.h"
+#include "GuiInputHandler.h"
 #include <OIS/OIS.h>
 #include "board.h"
 #include <vector>
+#include <functional>
+#include <ctime>
 
 class MyFrameListener : public Ogre::FrameListener {
  private:
@@ -39,6 +43,13 @@ class MyFrameListener : public Ogre::FrameListener {
   void paintShootingBoard();
   void manageShootMode();
   void shootShip();
+  GuiShip *_gui;
+  GuiInputHandler* _guiHandler;
+  MyGUI::Gui* mGUI;
+  MyGUI::OgrePlatform* mPlatform;
+  void guiButtonPressed(string userName);
+  time_t previousTime;
+  string _user;
 
  public:
   explicit MyFrameListener(Ogre::RenderWindow* win);

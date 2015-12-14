@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="ImageBox" skin="ImageBox" position_real="0.00390625 0.00390625 1 1" align="Stretch" layer="Wallpaper">
+        <Property key="ImageTexture" value="explosion_titulo.png"/>
+        <Widget type="ImageBox" skin="ImageBox" position="40 145 140 35" name="settings_img">
+            <Property key="ImageTexture" value="settings.png"/>
+        </Widget>
+        <Widget type="ImageBox" skin="ImageBox" position="480 145 155 30" name="records_img">
+            <Property key="ImageTexture" value="records.png"/>
+        </Widget>
+        <Widget type="ImageBox" skin="ImageBox" position="40 210 140 35" name="playgame_img">
+            <Property key="ImageTexture" value="playgame.png"/>
+        </Widget>
+        <Widget type="ImageBox" skin="ImageBox" position="40 585 140 35" name="credits">
+            <Property key="ImageTexture" value="creditos.png"/>
+        </Widget>
+    </Widget>
+    <Widget type="Widget" skin="" position="0 0 0 0" layer="Main" name="_Main"/>
+    <Widget type="Button" skin="Button" position="195 280 95 40" align="Default" layer="Main" name="exit">
+        <Property key="Caption" value="EXIT"/>
+        <Property key="TextShadow" value="true"/>
+    </Widget>
+    <Widget type="Button" skin="Button" position="350 210 95 40" align="Default" layer="Main" name="play">
+        <Property key="Caption" value="PLAY"/>
+        <Property key="TextShadow" value="true"/>
+    </Widget>
+    <Widget type="ComboBox" skin="ComboBox" position="195 140 145 40" align="center" layer="Main" name="level">
+        <Property key="Caption" value="DIFFICULT"/>
+        <Property key="AddItem" value="EASY"/>
+        <Property key="AddItem" value="HARD"/>
+        <Property key="TextShadow" value="true"/>
+    </Widget>
+    <Widget type="Widget" skin="PanelSkin" position="650 145 340 180" layer="Main">
+        <Property key="Alpha" value="0.5"/>
+        <Widget type="TextBox" skin="TextBox" position="10 5 185 165" name="records_users">
+            <Property key="Caption" value=""/>
+            <Property key="InheritsAlpha" value="false"/>
+            <Property key="FontHeight" value="20"/>
+            <Property key="TextShadow" value="true"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position="205 5 125 165" name="records_points">
+            <Property key="Caption" value=""/>
+            <Property key="InheritsAlpha" value="false"/>
+            <Property key="FontHeight" value="20"/>
+            <Property key="TextShadow" value="true"/>
+        </Widget>
+    </Widget>
+    <Widget type="EditBox" skin="EditBox" position="195 210 145 40" align="HStretch Top" layer="Main" name="User">
+        <Property key="Caption" value="USER NAME"/>
+        <Property key="TextShadow" value="true"/>
+    </Widget>
+    <Widget type="Widget" skin="PanelSkin" position="195 585 790 90" layer="Main">
+        <Property key="Alpha" value="0.5"/>
+        <Widget type="TextBox" skin="TextBox" position="10 5 770 75" name="credits">
+            <Property key="Caption" value="Julian Alcolea Martinez and Alfredo Arteaga Sanchez \nCEDV 2015-2016 \nGitHub: https://github.com/flush/CEDV-2015"/>
+            <Property key="InheritsAlpha" value="false"/>
+            <Property key="FontHeight" value="20"/>
+            <Property key="TextShadow" value="true"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>
