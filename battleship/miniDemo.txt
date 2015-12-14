@@ -1,0 +1,32 @@
+Proyecto
+----------------------------------------
+Hundir la flota
+
+Descripción
+----------------------------------------
+Primera entrega del master CEDV 2015-2016
+
+Participantes del equipo de desarrollo
+----------------------------------------
+Alfredo Arteaga Sánchez
+Julián Alcolea Martínez
+
+Fuentes
+----------------------------------------
+Los fuentes del proyecto se encuentran alojados en un repositorio público de github
+Dirección: https://github.com/flush/CEDV-2015
+
+Binarios
+----------------------------------------
+Los binarios de ejecución del juego se encuentran alojados en google drive
+Dirección: https://drive.google.com/open?id=0B2xwnD2KwUfdV0NBcUppWmZUZW8
+
+Video
+----------------------------------------
+Demostración del juego en funcionamiento alojada en un video público de youtube 
+Dirección: https://www.youtube.com/watch?v=3S-LxcpS1mU
+
+Otra Información
+----------------------------------------
+La ejecución del juego no presenta ninguna particularidad.
+La interfaz gráfica asi como el manejo del juego no requiere ningúna destreza especial.

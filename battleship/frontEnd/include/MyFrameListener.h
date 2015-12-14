@@ -1,5 +1,6 @@
 #ifndef MYFRAMELISTENER_H
 #define MYFRAMELISTENER_H
+#define GAME_FINISHED 5
 #define MODE_SHOOT 4
 #define MODE_PLACE_SHIP 3
 #define MODE_PLAY 2
@@ -50,6 +51,9 @@ class MyFrameListener : public Ogre::FrameListener {
   void guiButtonPressed(string userName);
   time_t previousTime;
   string _user;
+  void createBackGround();
+  void popup();
+  int _points;
 
  public:
   explicit MyFrameListener(Ogre::RenderWindow* win);

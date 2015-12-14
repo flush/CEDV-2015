@@ -38,6 +38,10 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win) {
 
   wHandleStr << windowHandle;
   param.insert(std::make_pair("WINDOW", wHandleStr.str()));
+    param.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+    param.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
+    param.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+    param.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
   
   _inputManager = OIS::InputManager::createInputSystem(param);
 
@@ -67,7 +71,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win) {
     
   std::function<void(string)> f_button = std::bind(&MyFrameListener::guiButtonPressed, this, std::placeholders::_1);
   _gui->setCallback(f_button);
-
+  _points = 0;
 
 
 }
@@ -106,9 +110,9 @@ void MyFrameListener::manageShootMode() {
     
       disp_result res = this->playerBoard->inteligent_cpu_play();
       if (res == derrota) {
-        _gui->createScene();
-        _gui->enable();
-        _mode = MODE_STARTED;
+
+        _mode = GAME_FINISHED;
+        this->popup();
       }
       else{
         _turn = PLAYER_TURN;
@@ -124,6 +128,7 @@ void MyFrameListener::guiButtonPressed(string userName){
   _gui->unloadScene();    
   createDummyPlane();
   this->paintPlaceShipMode();
+  this->createBackGround();
   _mode = MODE_PLACE_SHIP;
 
 
@@ -170,7 +175,22 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   }
 
 
-  
+  if (_mode == GAME_FINISHED){
+    if (leftMouseclick){
+      Ogre::SceneNode *popup = Ogre::Root::getSingleton().
+                               getSceneManager("mainSM")->getSceneNode("popup");
+      popup->removeAndDestroyAllChildren();
+      Ogre::Root::getSingleton().getSceneManager("mainSM")->destroySceneNode("popup");
+      _mode = MODE_STARTED;
+      if (_points > 0){
+        _gui->add_record(_user,_points);
+        _points = 0;
+      }
+      _gui->createScene();
+      _gui->enable();
+
+    }
+  }
   if (_mode == MODE_PLACE_SHIP) {
     if (leftMouseclick){
       this->selectShip();
@@ -253,10 +273,13 @@ void MyFrameListener::shootShip() {
       int y = name.at(name.length()-1)-'0';
       disp_result res = shootBoard->shoot(x, y,(Ogre::SceneNode*) it->movable->getParentNode());
       if (res == derrota) {
-        _gui->add_record(_user,shootBoard->getPoints());
-        _gui->createScene();
-        _gui->enable();
-        _mode = MODE_STARTED;
+        // 
+        _points = shootBoard->getPoints();
+        //_gui->createScene();
+        //_gui->enable();
+        _mode = GAME_FINISHED;
+        this->popup();
+        //_mode = MODE_STARTED;
       }
       else{
         _turn = PLAYER_TURN;
@@ -397,6 +420,43 @@ void MyFrameListener::createDummyPlane() {
   Ogre::Root::getSingleton().
       getSceneManager("mainSM")->getRootSceneNode()->
       attachObject(plane);
+}
+
+/*
+ * Create a fake Plane for Drag and Drop
+ */   
+void MyFrameListener::createBackGround() {
+  Ogre::SceneManager* mSceneMgr = Ogre::Root::getSingleton().
+                                  getSceneManager("mainSM");
+  Ogre::Plane *mPlane = new Ogre::Plane(Ogre::Vector3::UNIT_Z, -2);
+
+  Ogre::MeshManager::getSingleton().createPlane("backPlane",
+                                                Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+                                                *mPlane,800, 800, 20, 20, true, 1, 5, 5
+                                                , Ogre::Vector3::UNIT_Y);
+  Ogre::Entity* plane = mSceneMgr->createEntity("backPlane");
+  plane->setQueryFlags(PLANE_DRAG_DROP);
+  plane->setMaterialName("sheet");
+  Ogre::Root::getSingleton().
+      getSceneManager("mainSM")->getRootSceneNode()->
+      attachObject(plane);
+}
+
+
+void MyFrameListener::popup(){
+   Ogre::SceneManager* mSceneMgr = Ogre::Root::getSingleton().
+                                  getSceneManager("mainSM");
+  Ogre::SceneNode* nodeBoard = mSceneMgr->createSceneNode("popup");
+  Ogre::Entity* _board = mSceneMgr->createEntity("Popup.mesh");
+  std::cout << "puntos" << _points <<endl;
+  if(_points == 0 ) {
+    _board->setMaterialName("YouLose");
+  }
+  _points = 0;
+  nodeBoard->attachObject(_board);
+  Ogre::Vector3 vector = Ogre::Vector3(0, 2, 1.5);
+  nodeBoard->setPosition(vector);
+  mSceneMgr->getRootSceneNode()->addChild(nodeBoard);
 }
 
 

@@ -156,6 +156,7 @@ disp_result Board::shoot(int x, int y,Ogre::SceneNode* node) {
   }  else {
 
     mEntity->setMaterialName("acierto");
+    mEntity->setVisible(true);    
     if( res == tocado){
     std::cout << "Resultado Disparo tocado" << std::endl;      
     }

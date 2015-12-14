@@ -1,0 +1,27 @@
+// Material.001 genrated by blender2ogre 0.6.0
+
+material sheet
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass sheet
+        {
+            ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
+            diffuse 0.6400000190734865 0.6400000190734865 0.6400000190734865 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+	    cull_hardware none
+            cull_software none 
+
+            texture_unit 
+            {
+                sheet.jpg
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+        }
+    }
+}
