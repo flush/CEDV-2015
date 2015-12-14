@@ -5,5 +5,5 @@ make
 mv tester ./bin
 mv lib* ./bin
 cp config/* ./bin
-
+cp -r ./BATTLESHIP $MYGUI_INSTALL/Media
 
