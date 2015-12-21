@@ -9,7 +9,7 @@ EXECUTABLE=battleship
 
 all: engine $(EXECUTABLE)    
 $(EXECUTABLE): ${CPP_FILES} $(OBJ_FILES) 
-	$(CC) $(LDFLAGS) $(OBJ_FILES) ./lib/libbship.a -o $@
+	$(CC) $(OBJ_FILES) $(LDFLAGS) ./lib/libbship.a -o $@
 
 ./obj/%.o: src/%.cpp
 	$(CC) $(CFLAGS) $< -o $@
